@@ -1,4 +1,3 @@
-import java.util.Formatter;
 import java.util.Scanner;
 /**
  * This is read file class

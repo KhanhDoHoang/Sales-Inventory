@@ -1,4 +1,3 @@
-import java.util.Formatter;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 /**
@@ -44,7 +43,7 @@ public class Preserve extends FoodItem{
 		return intSize;
 	}
 	public String toString() {
-		return super.toString() + " size: " + this.intSize;
+		return super.toString() + " size: " + this.intSize + "mL";
 	}
 
 }

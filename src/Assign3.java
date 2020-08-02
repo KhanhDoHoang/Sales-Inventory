@@ -1,6 +1,9 @@
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.util.InputMismatchException;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 /**
@@ -17,8 +20,9 @@ public class Assign3 {
 
 		//FoodItem foodItem = new FoodItem();
 		String choice = ""; 
+		InventoryItem item = new InventoryItem();
 		Inventory inventory = new Inventory(); //Initialize inventory
-		LocalDate date = LocalDate.now();
+		LocalDate today = LocalDate.now();
 		do {
 			Scanner input = new Scanner(System.in);
 			displayMenu();
@@ -51,12 +55,36 @@ public class Assign3 {
 				inventory.searchingForItem(input);
 			} else if (choice.equals("6")) {
 				//Remove expired items
+				inventory.removeExpiredItems(today);
 			} else if (choice.equals("7")) {
 				//Print expiry
-								
+				item.printExpiry();				
 			} else if (choice.equals("8")) {
 				//Change today's date
-								
+				System.out.println("Today's date: " + today);
+				while (true) { 
+					try { 
+						System.out.println("Please enter new date (yyyy-mm-dd):");
+						String todayDate = input.next();
+						DateTimeFormatter dateformat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+						today = LocalDate.parse(todayDate, dateformat);
+						break; 
+					} 
+					catch (DateTimeParseException e) { 
+						System.out.println("Invalid entry");
+						System.out.println("Enter a valid date:");
+						input.nextLine();
+						continue; 
+					}
+					catch(InputMismatchException e) {
+						System.out.println("Invalid entry");
+						System.out.println("Enter a valid date:");
+						input.nextLine();
+						continue; 
+					}
+				}
+				
+				
 			} else {
 				continue;
 			}

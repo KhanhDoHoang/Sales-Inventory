@@ -11,38 +11,38 @@ public class FoodItem implements Comparable<FoodItem>{
 	private int itemCode;
 	private String itemName;
 	private float itemPrice;
-	private int itemQuantityInStock;
+	//private int itemQuantityInStock;
 	private float itemCost;
 
 	public FoodItem() {
 		this.itemCode = 0;
 		this.itemName = "";
 		this.itemPrice = 0;
-		this.itemQuantityInStock = 0;
+		//this.itemQuantityInStock = 0;
 		this.itemCost = 0;
 	}
 
-	/**
-	 * Update a quantity field
-	 * @param int
-	 * @return boolean
-	 */
-	public boolean updateItem(int amount) {
-		//Update a quantity field, could be positive or negative
-		int tempQuantity = itemQuantityInStock;
-
-		tempQuantity += amount;				//inStock: 12 == sell: -8
-		//inStock: 12 == buy : 8
-
-		if(tempQuantity < 0) {
-			System.out.println("Insufficient stock in inventory...");
-			System.out.println("Error...could not sell item");
-			return false;
-		}
-		itemQuantityInStock = tempQuantity;
-
-		return true;
-	}
+//	/**
+//	 * Update a quantity field
+//	 * @param int
+//	 * @return boolean
+//	 */
+//	public boolean updateItem(int amount) {
+//		//Update a quantity field, could be positive or negative
+//		int tempQuantity = itemQuantityInStock;
+//
+//		tempQuantity += amount;				//inStock: 12 == sell: -8
+//		//inStock: 12 == buy : 8
+//
+//		if(tempQuantity < 0) {
+//			System.out.println("Insufficient stock in inventory...");
+//			System.out.println("Error...could not sell item");
+//			return false;
+//		}
+//		itemQuantityInStock = tempQuantity;
+//
+//		return true;
+//	}
 	/**
 	 * This take the item code
 	 * @param scanner
@@ -102,28 +102,28 @@ public class FoodItem implements Comparable<FoodItem>{
 		System.out.print("Enter the name for the item: "); //Can be any input
 		this.itemName = scanner.nextLine();
 		scanner.nextLine();
-		//------------------Check for quantity------------------------------------
-		//Must be positive
-		while (true) { 
-			try { 
-				System.out.print("Enter the quantity for the item: ");
-				itemQuantityInStock = scanner.nextInt();
-				scanner.nextLine();
-				while(itemQuantityInStock < 0) {
-					System.out.println("Invalid entry");
-					System.out.print("Enter the quantity for the item: ");
-					itemQuantityInStock = scanner.nextInt();
-					scanner.nextLine();
-					continue;
-				}
-				break; 
-			} 
-			catch (InputMismatchException e) { 
-				System.out.println("Invalid entry");
-				scanner.next(); 
-				continue; 
-			}
-		}
+//		//------------------Check for quantity------------------------------------
+//		//Must be positive
+//		while (true) { 
+//			try { 
+//				System.out.print("Enter the quantity for the item: ");
+//				itemQuantityInStock = scanner.nextInt();
+//				scanner.nextLine();
+//				while(itemQuantityInStock < 0) {
+//					System.out.println("Invalid entry");
+//					System.out.print("Enter the quantity for the item: ");
+//					itemQuantityInStock = scanner.nextInt();
+//					scanner.nextLine();
+//					continue;
+//				}
+//				break; 
+//			} 
+//			catch (InputMismatchException e) { 
+//				System.out.println("Invalid entry");
+//				scanner.next(); 
+//				continue; 
+//			}
+//		}
 
 		//-----------Check for cost----------------------------------
 		while (true) { 
@@ -178,8 +178,8 @@ public class FoodItem implements Comparable<FoodItem>{
 	 */
 	public String toString() {		
 
-		return "Item code: " + this.itemCode + " Name: " + this.itemName + " In stock: " 
-				+ this.itemQuantityInStock + " price: " + this.itemPrice
+		return "Item code: " + this.itemCode + " Name: " + this.itemName 
+				+ " price: " + this.itemPrice
 				+ " cost: " + this.itemCost + " ";
 		//How to add fruit, vegie or preserve to this toString
 	}
@@ -216,3 +216,4 @@ public class FoodItem implements Comparable<FoodItem>{
 //String cost = String.format("%d", this.itemCost);
 //System.out.println("item code " + code + "\nitem name " + name + "\nquantity of item"
 //	+ quantity + "\nitem cost " + cost + "\nitem price " + price);
+
