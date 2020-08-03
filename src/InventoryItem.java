@@ -1,8 +1,6 @@
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
 import java.time.format.DateTimeParseException;
-import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -15,12 +13,6 @@ public class InventoryItem implements Comparable<InventoryItem>{
 	private int itemQuantityInStock;
 	private FoodItem item;
 	private Queue<LocalDate> expires;
-
-	public InventoryItem() {
-		expires = new LinkedList<LocalDate>();
-		this.itemQuantityInStock = 0;
-		this.item = new FoodItem();
-	}
 
 	public InventoryItem(FoodItem item) {	//can have parameters if I wish!
 		expires = new LinkedList<LocalDate>();
@@ -35,10 +27,14 @@ public class InventoryItem implements Comparable<InventoryItem>{
 			try { 
 				//--EXPIRY DATE for item new buy--//
 				System.out.println("Please enter new date (yyyy-mm-dd):");
-				String todayDate = scanner.next();
+				String newDate = scanner.next();
+				if(newDate.equals("none")) {
+					date = LocalDate.MAX;
+					break;
+				}
 				//---Checking for valid date---//
 				DateTimeFormatter dateformat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-				date = LocalDate.parse(todayDate, dateformat);
+				date = LocalDate.parse(newDate, dateformat);
 				break; 
 			} 
 			catch (DateTimeParseException e) { 
@@ -79,31 +75,16 @@ public class InventoryItem implements Comparable<InventoryItem>{
 		//------Adding quantity and time to expires
 		//String itemToAdd = date + " : " + this.itemQuantityInStock;
 
-		//expires.add(itemToAdd);
-		expires.add(date);
+		//expires.add(itemToAd==);
+
+		for(int i = 0; i < this.itemQuantityInStock; i++) {
+			expires.add(date);
+			//System.out.println(expires);
+		}
 
 
 		return true;
 	}
-
-	//	class MyFormatter {
-	//		private final String patterns;
-	//
-	//		public MyFormatter(String patterns){		//Vargargs taking input from multi sources
-	//			this.patterns = patterns;
-	//		}
-	//
-	//		public LocalDate parse(String text){
-	//			for(int i = 0; i < patterns.length(); i++){
-	//				try{
-	//					return LocalDate.parse(text, DateTimeFormatter.ofPattern(text));
-	//				}catch(DateTimeParseException excep){
-	//					System.out.println("Cannot parse at index " + i);
-	//				}
-	//			}
-	//			throw new IllegalArgumentException("Not able to parse the date for all patterns given");
-	//		}
-	//	}
 
 	public int getItemCode() {
 		//Get item code from the item got from inventory class and call the code from FoodItem
@@ -127,45 +108,123 @@ public class InventoryItem implements Comparable<InventoryItem>{
 		item.toString();
 		System.out.println();
 		System.out.println("Expiry Details:");
-		Iterator<LocalDate> iterator = expires.iterator();
-		Iterator<Integer> iter = quantity.iterator();
-		while(iterator.hasNext()) {
-			System.out.print(iterator.hasNext() + " : " + iter.hasNext() + "\n");
-		}
-		System.out.println();
-	}
-
-	public void removeExpiredItems(LocalDate today) {
-
-		//Remove expiry item based on today's date
-		try {
-			Iterator<LocalDate> iterator = expires.iterator();
-			while(iterator.hasNext()) {
-				if(today.isAfter(expires.peek())) {
-					expires.remove();
-
+		try {			
+			Iterator<LocalDate> iterator1 = expires.iterator();
+			LocalDate currentDate1 = LocalDate.MIN;
+			int type = 0;
+			LinkedList<LocalDate> dateNum = new LinkedList<LocalDate>(); 
+			while(iterator1.hasNext()) {
+				if(iterator1.next() != currentDate1) {
+					currentDate1 = iterator1.next();
+					dateNum.add(currentDate1);
+					type++;
 				}
 			}
+			//Based on type then know how many dates in expires
+			//--------
+			//LocalDate currentDate;
+			for(int i = 0; i < type; i++) {
+				int dateQty = 0;
+				Iterator<LocalDate> iterator = expires.iterator();
+				//currentDate = iterator.next();
+				while(iterator.hasNext()) {
+					if(iterator.next().equals(dateNum.get(i))) {
+						dateQty++;
+					}
+				}
+				System.out.println(dateNum.get(i) + " : " + dateQty);
+			}
+
+
 		}catch(NoSuchElementException e) {
 			System.out.println("");
 		}
+	}
 
+	public void removeExpiredItems(LocalDate today) {
+		//System.out.println("Hello Im in inventory item");
+		//Remove expiry item based on today's date
+		try {
+
+			Iterator<LocalDate> iterator = expires.iterator();
+			while(iterator.hasNext()) {
+				//System.out.println("Hello Im in loop");
+				if(today.isAfter(iterator.next())) {
+					iterator.remove();
+				}else {
+					continue;
+				}
+			}
+
+		}catch(NoSuchElementException e) {
+			System.out.println("");
+		}
 	}
 
 	public boolean updateQuantity(Scanner scanner, int amount) {
 		//How to use queue to do first in first out for expiry 
 		//choosing the item code
+		LocalDate date = LocalDate.MIN;
+		while (true) { 
+			try { 
+				//--EXPIRY DATE for item new buy--//
+				System.out.println("Please enter new date (yyyy-mm-dd):");
+				String newDate = scanner.next();
+				if(newDate.equals("none")) {
+					date = LocalDate.MAX;
+					break;
+				}
+				//---Checking for valid date---//
+				DateTimeFormatter dateformat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+				date = LocalDate.parse(newDate, dateformat);
+				break; 
+			} 
+			catch (DateTimeParseException e) { 
+				System.out.println("Invalid entry");
+				System.out.println("Enter a valid date:");
+				scanner.nextLine();
+				continue; 
+			}
+			catch(InputMismatchException e) {
+				System.out.println("Invalid entry");
+				System.out.println("Enter a valid date:");
+				scanner.nextLine();
+				continue; 
+			}
+		}
 
-		//Check if the input date is equal which expires
-		Iterator<LocalDate> checkDate = expires.iterator();
-		
+		int tempQuantity = this.expires.size();
+		System.out.println(tempQuantity);
+		tempQuantity += amount;				//inStock: 12 == sell: -8		//inStock: 12 == buy : 8
+		System.out.println(tempQuantity);
+		if(tempQuantity < 0) {
+			System.out.println("Insufficient stock in inventory...");
+			System.out.println("Error...could not sell item");
+			return false;
+		}
+		itemQuantityInStock = tempQuantity;
+		System.out.println(itemQuantityInStock);
+		if(amount < 0) {
+
+			Iterator<LocalDate> iterator = expires.iterator();
+			for(int i = 0; i < amount; i++) {
+				if(date.equals(iterator.next())) {
+					iterator.remove();
+				}
+			}
+			return true;
+		}
+
+
+		for(int i = 0; i < this.itemQuantityInStock; i++) {
+			expires.add(date);
+		}
 
 		return true;
 	}
 
 	public String toString() {
-		return item.toString() + " qty: " + this.itemQuantityInStock ;
-
+		return item.toString() + " qty: " + this.expires.size() ;
 	}
 
 	@Override
@@ -174,9 +233,4 @@ public class InventoryItem implements Comparable<InventoryItem>{
 		/* For Ascending order*/
 		return this.getItemCode()-compareCode;
 	}
-
-
 }
-
-
-

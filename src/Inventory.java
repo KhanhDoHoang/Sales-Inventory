@@ -14,7 +14,7 @@ public class Inventory{
 		this.inventory = new ArrayList<>();
 	}
 
-	public String toString() {
+	public String toString() {			//Works
 		// Display all data member
 		String str = "";
 		for (int i = 0; i < this.inventory.size(); i++) {
@@ -23,34 +23,41 @@ public class Inventory{
 		return str;
 	}
 
-	public int alreadyExist(InventoryItem inventoryItem) {
+	public int alreadyExist(InventoryItem inventoryItem) {		//Works
 		// ---Return the index of a FoodItem in the inventory array
 		//----Link to InventoryItem to check fo
 		for (int i = 0; i < inventory.size() - 1; i++) {
 			if (inventory.get(i).getItemCode() == inventoryItem.getItemCode()) {
-
+//				System.out.println(inventory.get(i).getItemCode());
+//				System.out.println(inventoryItem.getItemCode());
 				return i; // existed
 			}
 		}
 		return -1; // not existed
 	}
 
-	public void printExpiry(Scanner scanner) {
+	//Fixed!!!!!!!!!!!!-----------------------------------------------------
+	public void printExpiry() {
+		Scanner scanner = new Scanner(System.in);		
+		inventory.add(new InventoryItem(new FoodItem())); // Adding new fruit class into the inven
+		// count here is the iteration from the beginning till the end to control the
+		// loop globally
 		System.out.print("Enter the code for the item: ");
-		inventory.add(new InventoryItem());
-		inventory.get(count).inputCode(scanner);
-		if (this.alreadyExist(inventory.get(count)) == -1) { // not existed
+		this.inventory.get(count).inputCode(scanner);
+		if (this.alreadyExist(inventory.get(count)) == -1) {	//not link to inventory item yet
 			System.out.println("Code not found in inventory...");
 			System.out.println("Error...could not find item");
 			inventory.remove(count);
 			return;
 		} else {
-			inventory.get(this.alreadyExist(inventory.get(count))).printExpiry();;
-
+			inventory.get(this.alreadyExist(inventory.get(count))).printExpiry();
+			inventory.remove(count);
 		}
 	}
-
-	public boolean addItem(Scanner scanner) {
+	//Fixed!!!!!!!!!!!!-----------------------------------------------------
+		
+	
+	public boolean addItem(Scanner scanner) {		//Works
 		//checking for v f and p
 
 		// ----Adds an item to the inventory array
@@ -84,6 +91,7 @@ public class Inventory{
 			this.inventory.get(count).inputCode(scanner);
 			if (this.alreadyExist(inventory.get(count)) != -1) {	//not link to inventory item yet
 				System.out.println("The code already existed!");
+				inventory.remove(count);
 				return false;
 			}
 			inventory.get(count).addItem(scanner);
@@ -133,7 +141,7 @@ public class Inventory{
 		// Add one more to input and then check that with the others
 		// Remember delete that
 		// boolean fromFile = false;
-		inventory.add(new InventoryItem());
+		inventory.add(new InventoryItem(new FoodItem()));
 		if (buyOrSell == false) { // false for sell
 			System.out.print("Enter valid item code:");
 			inventory.get(count).inputCode(scanner);
@@ -150,7 +158,6 @@ public class Inventory{
 						amount = 0 - amount;
 						inventory.get(this.alreadyExist(inventory.get(count))).updateQuantity(scanner, amount);
 						inventory.remove(count);
-
 						return true;
 					} catch (InputMismatchException e) {
 						System.out.println("Invalid quantity...");
@@ -200,7 +207,7 @@ public class Inventory{
 	 * This searches item in the arraylist
 	 * @param input
 	 */
-	public void searchingForItem(Scanner input) {
+	public void searchingForItem(Scanner input) {	//Works
 		int target = 0;
 		while(true) {
 			try {
@@ -227,7 +234,7 @@ public class Inventory{
 	 * @param target
 	 * @return
 	 */
-	private int searchItem(ArrayList<InventoryItem> inventory2, int left, int right, int target) {
+	private int searchItem(ArrayList<InventoryItem> inventory2, int left, int right, int target) {	//Works
 		if (left <= right) { 
 			int mid = (left + right) / 2; 
 
@@ -246,10 +253,12 @@ public class Inventory{
 		return -1; 
 	}
 
-	public void removeExpiredItems(LocalDate today) {
+	public void removeExpiredItems(LocalDate today) {			//Works
 		for(int i = 0; i < this.inventory.size(); i++) {
 			this.inventory.get(i).removeExpiredItems(today);
+			//System.out.println("Im in inventory: " + i);
 		}	
+		System.out.println("Done removing!");
 	}
 
 

@@ -20,7 +20,7 @@ public class Assign3 {
 
 		//FoodItem foodItem = new FoodItem();
 		String choice = ""; 
-		InventoryItem item = new InventoryItem();
+		//InventoryItem item = new InventoryItem();
 		Inventory inventory = new Inventory(); //Initialize inventory
 		LocalDate today = LocalDate.now();
 		do {
@@ -58,7 +58,7 @@ public class Assign3 {
 				inventory.removeExpiredItems(today);
 			} else if (choice.equals("7")) {
 				//Print expiry
-				item.printExpiry();				
+				inventory.printExpiry();				
 			} else if (choice.equals("8")) {
 				//Change today's date
 				System.out.println("Today's date: " + today);

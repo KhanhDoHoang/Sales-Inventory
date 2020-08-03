@@ -1,3 +1,4 @@
+
 import java.util.Scanner;
 /**
  * This is read file class
@@ -31,3 +32,4 @@ public class Fruit extends FoodItem{
 		return super.toString() + " orchard supplier: " + this.orchardName;
 	}
 }
+
