@@ -11,7 +11,7 @@ import java.util.Scanner;
  * @author HoangDo
  *
  */
-public class Main {
+public class Assign3 {
 	private static Scanner keyboard = new Scanner(System.in);
 	/**
 	 * @param args
