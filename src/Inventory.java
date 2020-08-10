@@ -13,7 +13,9 @@ public class Inventory{
 		this.count = 0;
 		this.inventory = new ArrayList<>();
 	}
-
+	/**
+	 * toString to print out
+	 */
 	public String toString() {			//Works
 		// Display all data member
 		String str = "";
@@ -22,7 +24,11 @@ public class Inventory{
 		}
 		return str;
 	}
-
+	/**
+	 * 
+	 * @param inventoryItem
+	 * @return
+	 */
 	public int alreadyExist(InventoryItem inventoryItem) {		//Works
 		// ---Return the index of a FoodItem in the inventory array
 		//----Link to InventoryItem to check fo
@@ -35,7 +41,9 @@ public class Inventory{
 		}
 		return -1; // not existed
 	}
-
+	/**
+	 * print Expiry based on LocalDate
+	 */
 	//Fixed!!!!!!!!!!!!-----------------------------------------------------
 	public void printExpiry() {
 		Scanner scanner = new Scanner(System.in);		
@@ -50,13 +58,19 @@ public class Inventory{
 			inventory.remove(count);
 			return;
 		} else {
+			//inventory.get(this.alreadyExist(inventory.get(count))).toString();
+			System.out.println(inventory.get(this.alreadyExist(inventory.get(count))).toString());
 			inventory.get(this.alreadyExist(inventory.get(count))).printExpiry();
 			inventory.remove(count);
 		}
 	}
 	//Fixed!!!!!!!!!!!!-----------------------------------------------------
 		
-	
+	/**
+	 * 
+	 * @param scanner
+	 * @return
+	 */
 	public boolean addItem(Scanner scanner) {		//Works
 		//checking for v f and p
 
